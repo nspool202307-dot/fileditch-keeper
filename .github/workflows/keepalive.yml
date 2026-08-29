@@ -1,0 +1,27 @@
+name: FileDitch Auto Keep-Alive
+
+on:
+  schedule:
+    # 每 15 天自動執行一次 (Cron 排程)
+    - cron: '0 0 */15 * *'
+  workflow_dispatch: # 允許您在網頁上隨時手動點按鈕觸發測試
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Run Keep-Alive Script
+        run: |
+          python keepalive.py
